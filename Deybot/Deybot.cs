@@ -4,7 +4,7 @@ using Discord.WebSocket;
 
 namespace Deybot
 {
-    public partial class Program
+    public partial class Deybot
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
@@ -13,10 +13,10 @@ namespace Deybot
 
         public static Task Main(string[] args)
         {
-            return new Program().MainAsync();
+            return new Deybot().MainAsync();
         }
 
-        private Program()
+        private Deybot()
         {
             // Set Env variable - included in .gitignore
             Env.SetVars(); 
@@ -26,8 +26,8 @@ namespace Deybot
 
             _commandHandler = new CommandHandler(_client, _commands);
 
-            _client.Log += Logger.Log;
-            _commands.Log += Logger.Log;
+            _client.Log += LogHandler.Log;
+            _commands.Log += LogHandler.Log;
         }
 
         public async Task MainAsync()
@@ -42,10 +42,10 @@ namespace Deybot
             await Task.Delay(-1);
         }
 
-        ~Program()
+        ~Deybot()
         {
-            _client.Log -= Logger.Log;
-            _commands.Log -= Logger.Log;
+            _client.Log -= LogHandler.Log;
+            _commands.Log -= LogHandler.Log;
         }
     }
 }
