@@ -1,13 +1,16 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.Design;
 
 namespace Deybot
 {
-    public partial class Deybot
+    public class Deybot
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
+        private readonly IServiceProvider _serviceProvider;
 
         private readonly CommandHandler _commandHandler;
 
@@ -19,12 +22,13 @@ namespace Deybot
         private Deybot()
         {
             // Set Env variable - included in .gitignore
-            Env.SetVars(); 
+            Env.SetVars();
 
             _client = new DiscordSocketClient(Config.GetSocketConfig());
             _commands = new CommandService(Config.GetCommandsConfig());
+            _serviceProvider = Config.GetServiceProvider();
 
-            _commandHandler = new CommandHandler(_client, _commands);
+            _commandHandler = new CommandHandler(_serviceProvider, _client, _commands);
 
             _client.Log += LogHandler.Log;
             _commands.Log += LogHandler.Log;

@@ -1,11 +1,20 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+using Deybot.Music;
 
 namespace Deybot
 {
     internal static class Config
     {
+        public static IServiceProvider GetServiceProvider()
+        {
+            return new ServiceCollection()
+                .AddSingleton<IMusicService, FFmpegService>()
+                .BuildServiceProvider();
+        }
+
         public static DiscordSocketConfig GetSocketConfig()
         {
             DiscordSocketConfig config = new DiscordSocketConfig();

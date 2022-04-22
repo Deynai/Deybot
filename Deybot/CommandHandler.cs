@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Deybot
@@ -9,8 +10,11 @@ namespace Deybot
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+        private IServiceProvider _serviceProvider;
+
+        public CommandHandler(IServiceProvider serviceProvider, DiscordSocketClient client, CommandService commands)
         {
+            _serviceProvider = serviceProvider;
             _client = client;
             _commands = commands;
         }
@@ -21,7 +25,7 @@ namespace Deybot
 
             await _commands.AddModulesAsync(
                 assembly: Assembly.GetEntryAssembly(),
-                services: null
+                services: _serviceProvider
                 );
         }
 
@@ -38,7 +42,7 @@ namespace Deybot
                 IResult result = await _commands.ExecuteAsync(
                     context: context, 
                     argPos: pos, 
-                    services: null
+                    services: _serviceProvider
                     );
             }
         }
