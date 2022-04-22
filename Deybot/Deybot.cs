@@ -16,7 +16,7 @@ namespace Deybot
 
         public static Task Main(string[] args)
         {
-            return new Deybot().MainAsync();
+            return new Deybot().MainAsync(); 
         }
 
         private Deybot()
