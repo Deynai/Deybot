@@ -6,7 +6,8 @@ namespace Deybot.Music
     {
         public IAudioClient? AudioClient { get; }
         public void ConnectAudioClient(IAudioClient audioClient);
-        public Task StreamLocalFileAsync(string path);
+        public Task RequestSongAsync(Platform platform, string path);
+        public Task SkipSongAsync();
         public Task StopPlayingAsync();
         public Task DisconnectAsync();
     }
